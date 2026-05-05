@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Steganography</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    color: rgb(27, 132, 238);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 40px;
+    border-bottom: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* RIGHT SIDE BUTTONS */
+.nav-right {
+    display: flex;
+    gap: 15px;
+}
+
+/* NAV BUTTONS */
+.nav-btn {
+    padding: 8px 16px;
+    background: rgb(27, 132, 238);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.nav-btn:hover {
+    background: rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+    display: flex;
+    font-size: 40px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    border-right: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    color: rgb(27, 132, 238);
+    text-decoration: none;
+    font-size: 40px;
+}
+
+.sidebar a:hover {
+    background: rgb(27, 132, 238);
+    color: white;
+    font-size: 40px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 40px;
+}
+
+/* BOX */
+.box {
+    width: 800px;
+    padding: 25px;
+    margin-top: 40px;
+    border: 1px solid rgb(27, 132, 238);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* FORM */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: white;
+    color: rgb(27, 132, 238);
+    border: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* EXECUTE BUTTON ONLY */
+.form-btn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    font-size: 40px;
+    background: rgb(27, 132, 238);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.form-btn:hover {
+    background: rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* OUTPUT */
+.output {
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+    <div>🔐 Secure Steganography</div>
+
+    <div class="nav-right">
+        <button onclick="history.back()" class="nav-btn">⬅ Back</button>
+        <a href="/logout" class="nav-btn">Logout</a>
+    </div>
+</div>
+
+<!-- ================= LAYOUT ================= -->
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="/dashboard">🖼 Image</a>
+    <a href="/audio">🎵 Audio</a>
+    <a href="/video">🎥 Video</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<div class="box">
+
+<h2>Image Steganography</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+<label>Select Action</label>
+<select name="action" id="action" onchange="toggleImageBox()">
+    <option value="hide">Hide Message</option>
+    <option value="extract">Extract Message</option>
+    <option value="detect">Detect Hidden Data</option>
+</select>
+
+<label>Upload Image</label>
+<input type="file" name="image" required>
+
+<!-- MESSAGE BOX -->
+<div id="messageBox">
+    <label>Enter Message</label>
+    <textarea name="message"></textarea>
+</div>
+
+<label>Enter Password</label>
+<input type="password" name="password" required>
+
+<button type="submit" class="form-btn">EXECUTE</button>
+
+</form>
+
+<div class="output">
+{% if result %}
+<p>{{ result }}</p>
+{% endif %}
+
+{% if output_image %}
+<img src="{{ url_for('static', filename=output_image.split('/')[-1]) }}" width="300">
+{% endif %}
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="output">
+{% if result %}
+<p>Encoded Image:</p>
+<a href="{{ url_for('static', filename=output_image.split('/')[-1]) }}" download>Download Encoded Image</a>
+
+<p>⚠️ For extracting, upload this downloaded image.</p>
+{% endif %}
+</div>
+<!-- SCRIPT -->
+<script>
+function toggleImageBox() {
+    var action = document.getElementById("action").value;
+    var box = document.getElementById("messageBox");
+
+    if (action === "hide") {
+        box.style.display = "block";
+    } else {
+        box.style.display = "none";
+    }
+}
+window.onload = toggleImageBox;
+</script>
+
+</body>
+</html>

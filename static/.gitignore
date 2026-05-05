@@ -1,0 +1,28 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Database
+*.db
+
+# Environment file
+.env
+
+# Media files (generated)
+*.mp4
+*.avi
+*.wav
+
+# Temp / generated files
+temp_*
+temp.png
+frames/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Video Steganography</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    color: rgb(27, 132, 238);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 40px;
+    border-bottom: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* RIGHT SIDE BUTTONS */
+.nav-right {
+    display: flex;
+    gap: 15px;
+}
+
+/* NAV BUTTONS */
+.nav-btn {
+    padding: 8px 16px;
+    background: rgb(27, 132, 238);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.nav-btn:hover {
+    background: rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+    display: flex;
+    font-size: 40px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    border-right: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    color: rgb(27, 132, 238);
+    text-decoration: none;
+    font-size: 40px;
+}
+
+.sidebar a:hover {
+    background: rgb(27, 132, 238);
+    color: white;
+    font-size: 40px;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 40px;
+}
+
+/* BOX */
+.box {
+    width: 800px;
+    padding: 25px;
+    margin-top: 40px;
+    border: 1px solid rgb(27, 132, 238);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* FORM */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: white;
+    color: rgb(27, 132, 238);
+    border: 1px solid rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* EXECUTE BUTTON ONLY */
+.form-btn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    font-size: 40px;
+    background: rgb(27, 132, 238);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.form-btn:hover {
+    background: rgb(27, 132, 238);
+    font-size: 40px;
+}
+
+/* OUTPUT */
+.output {
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div>🔐 Secure Steganography</div>
+    <div>
+        <button onclick="history.back()" class="nav-btn">⬅ Back</button>
+        <a href="/logout" class="nav-btn">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+    <a href="/dashboard">🖼 Image</a>
+    <a href="/audio">🎵 Audio</a>
+    <a href="/video">🎥 Video</a>
+</div>
+
+<div class="main">
+<div class="box">
+
+<h2>Video Steganography</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+<label>Select Action</label>
+<select name="action" id="action" onchange="toggleMessageBox()">
+    <option value="encode">Encode Video</option>
+    <option value="decode">Decode Video</option>
+</select>
+
+<label> Upload Video</label>
+<input type="file" name="file" required>
+
+<!-- 🔥 MESSAGE FIELD -->
+<div id="messageBox">
+    <label>Enter Message</label>
+    <textarea name="message"></textarea>
+</div>
+
+<label>Enter Password</label>
+<input type="password" name="password" required>
+
+<button type="submit" class="form-btn">EXECUTE</button>
+
+</form>
+
+{% if result %}
+<p>{{ result }}</p>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+<div class="output">
+{% if file %}
+<p>Encoded Video:</p>
+<a href="{{ url_for('static', filename=file) }}" download>Download Encoded Video</a>
+
+<p>⚠️ For decoding, upload this downloaded file.</p>
+{% endif %}
+</div>
+<script>
+function toggleMessageBox() {
+    var action = document.getElementById("action").value;
+    var box = document.getElementById("messageBox");
+
+    if (action === "decode") {
+        box.style.display = "none";
+    } else {
+        box.style.display = "block";
+    }
+}
+
+// run on page load
+window.onload = toggleMessageBox;
+</script>
+
+</body>
+</html>
